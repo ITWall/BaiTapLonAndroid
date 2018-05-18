@@ -1,4 +1,4 @@
-package ntt.thuy.com.btlmusicplayer;
+package ntt.thuy.com.btlmusicplayer.offline;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.provider.MediaStore;
 
 import java.util.ArrayList;
+
+import ntt.thuy.com.btlmusicplayer.model.Song;
 
 /**
  * Created by thuy on 29/04/2018.

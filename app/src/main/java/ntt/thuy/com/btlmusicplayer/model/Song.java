@@ -1,4 +1,4 @@
-package ntt.thuy.com.btlmusicplayer;
+package ntt.thuy.com.btlmusicplayer.model;
 
 import android.net.Uri;
 

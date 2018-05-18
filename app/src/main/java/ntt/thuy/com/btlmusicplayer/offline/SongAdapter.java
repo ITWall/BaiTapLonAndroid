@@ -1,4 +1,4 @@
-package ntt.thuy.com.btlmusicplayer;
+package ntt.thuy.com.btlmusicplayer.offline;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+
+import ntt.thuy.com.btlmusicplayer.R;
+import ntt.thuy.com.btlmusicplayer.model.Song;
 
 /**
  * Created by thuy on 29/04/2018.
@@ -29,7 +32,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder>{
 
     @Override
     public SongHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemSong = View.inflate(mContext,R.layout.item_song,null);
+        View itemSong = View.inflate(mContext, R.layout.item_song,null);
         RecyclerView.LayoutParams params = new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,RecyclerView.LayoutParams.WRAP_CONTENT);
         params.setMargins(8,8,8,8);
         itemSong.setLayoutParams(params);

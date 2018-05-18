@@ -1,4 +1,4 @@
-package ntt.thuy.com.btlmusicplayer;
+package ntt.thuy.com.btlmusicplayer.offline;
 
 /**
  * Created by thuy on 29/04/2018.

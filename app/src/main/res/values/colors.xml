@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="song">#8a2488AD</color>
     <color name="normal">#4a2394BC</color>
+    <color name="background_toolbar">#424242</color>
+    <color name="background_selected_item">#E0E0E0</color>
 </resources>

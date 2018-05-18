@@ -1,4 +1,4 @@
-package ntt.thuy.com.btlmusicplayer;
+package ntt.thuy.com.btlmusicplayer.offline;
 
 import android.content.ContentUris;
 import android.content.Context;
@@ -12,7 +12,7 @@ import java.io.IOException;
 /**
  * Created by thuy on 29/04/2018.
  */
-public class SongPlayer implements IPlayer{
+public class SongPlayer implements IPlayer {
     public static final int STATE_IDLE = 1;
     public static final int STATE_PLAYING = 2;
     public static final int STATE_PAUSED = 3;
