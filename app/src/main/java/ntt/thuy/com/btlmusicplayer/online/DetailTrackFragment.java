@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import ntt.thuy.com.btlmusicplayer.R;
 import ntt.thuy.com.btlmusicplayer.model.Track;
 
 /**

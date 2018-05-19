@@ -42,15 +42,15 @@ public class MainActivity extends AppCompatActivity  {
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    public void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new OnlineFragment(), "ONlINE");
-        adapter.addFragment(new OfflineFragment(), "OFFLINE");
-        viewPager.setAdapter(adapter);
-    }
+        public void setupViewPager(ViewPager viewPager) {
+            ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+            adapter.addFragment(new OnlineFragment(), "ONlINE");
+            adapter.addFragment(new OfflineFragment(), "OFFLINE");
+            viewPager.setAdapter(adapter);
+        }
 
-    public void showDetailTrackFragment(Track track){
-        getSupportFragmentManager().beginTransaction()
+        public void showDetailTrackFragment(Track track){
+            getSupportFragmentManager().beginTransaction()
                 .add(R.id.viewpager, DetailTrackFragment.newInstance(track))
                 .addToBackStack(null)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)

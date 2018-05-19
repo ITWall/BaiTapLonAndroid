@@ -31,11 +31,12 @@ import java.util.List;
 
 import ntt.thuy.com.btlmusicplayer.Config;
 import ntt.thuy.com.btlmusicplayer.MainActivity;
+import ntt.thuy.com.btlmusicplayer.data.APIUtils;
 import ntt.thuy.com.btlmusicplayer.model.Track;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
+import ntt.thuy.com.btlmusicplayer.R;
 /**
  * Created by nguyen.thi.thu.thuy on 5/11/18.
  */
