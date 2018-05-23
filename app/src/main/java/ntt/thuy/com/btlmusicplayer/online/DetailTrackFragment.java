@@ -44,7 +44,7 @@ public class DetailTrackFragment extends Fragment {
         userName = (TextView) view.findViewById(R.id.user_name);
         lastModified = (TextView) view.findViewById(R.id.last_modified);
 
-        title.setText(track.title);
+//        title.setText(track.title);
         createdAt.setText(track.createdAt);
         userName.setText(track.user.username);
         lastModified.setText(track.user.lastModified);
