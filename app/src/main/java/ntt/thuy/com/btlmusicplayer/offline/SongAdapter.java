@@ -9,7 +9,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import ntt.thuy.com.btlmusicplayer.R;
-import ntt.thuy.com.btlmusicplayer.model.Song;
+import ntt.thuy.com.btlmusicplayer.entity.Song;
 
 /**
  * Created by thuy on 29/04/2018.

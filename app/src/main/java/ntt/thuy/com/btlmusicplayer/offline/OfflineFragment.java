@@ -1,7 +1,6 @@
 package ntt.thuy.com.btlmusicplayer.offline;
 
 
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -15,7 +14,7 @@ import android.widget.Toast;
 
 import ntt.thuy.com.btlmusicplayer.R;
 import ntt.thuy.com.btlmusicplayer.controller.OfflineController;
-import ntt.thuy.com.btlmusicplayer.model.Song;
+import ntt.thuy.com.btlmusicplayer.entity.Song;
 
 /**
  * A simple {@link Fragment} subclass.

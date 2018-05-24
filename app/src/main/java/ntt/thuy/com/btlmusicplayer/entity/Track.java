@@ -1,4 +1,4 @@
-package ntt.thuy.com.btlmusicplayer.model;
+package ntt.thuy.com.btlmusicplayer.entity;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

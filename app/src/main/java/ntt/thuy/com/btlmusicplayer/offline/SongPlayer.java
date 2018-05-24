@@ -9,7 +9,7 @@ import android.os.Binder;
 
 import java.io.IOException;
 
-import ntt.thuy.com.btlmusicplayer.model.Song;
+import ntt.thuy.com.btlmusicplayer.entity.Song;
 
 /**
  * Created by thuy on 29/04/2018.

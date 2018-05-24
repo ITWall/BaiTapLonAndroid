@@ -7,7 +7,7 @@ import android.provider.MediaStore;
 
 import java.util.ArrayList;
 
-import ntt.thuy.com.btlmusicplayer.model.Song;
+import ntt.thuy.com.btlmusicplayer.entity.Song;
 
 /**
  * Created by thuy on 29/04/2018.

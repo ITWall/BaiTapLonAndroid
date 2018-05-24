@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import ntt.thuy.com.btlmusicplayer.R;
-import ntt.thuy.com.btlmusicplayer.model.Track;
+import ntt.thuy.com.btlmusicplayer.entity.Track;
 
 /**
  * Created by nguyen.thi.thu.thuy on 5/11/18.
