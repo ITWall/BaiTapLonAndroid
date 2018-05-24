@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import ntt.thuy.com.btlmusicplayer.R;
-import ntt.thuy.com.btlmusicplayer.model.Track;
+import ntt.thuy.com.btlmusicplayer.entity.Track;
 
 /**
  * Created by nguyen.thi.thu.thuy on 5/11/18.
@@ -43,7 +43,7 @@ public class DetailTrackFragment extends Fragment {
         userName = (TextView) view.findViewById(R.id.user_name);
         lastModified = (TextView) view.findViewById(R.id.last_modified);
 
-        title.setText(track.title);
+//        title.setText(track.title);
         createdAt.setText(track.createdAt);
         userName.setText(track.user.username);
         lastModified.setText(track.user.lastModified);

@@ -14,7 +14,7 @@ import android.support.v7.widget.Toolbar;
 import java.util.ArrayList;
 import java.util.List;
 
-import ntt.thuy.com.btlmusicplayer.model.Track;
+import ntt.thuy.com.btlmusicplayer.entity.Track;
 import ntt.thuy.com.btlmusicplayer.offline.OfflineFragment;
 import ntt.thuy.com.btlmusicplayer.online.DetailTrackFragment;
 import ntt.thuy.com.btlmusicplayer.online.OnlineFragment;

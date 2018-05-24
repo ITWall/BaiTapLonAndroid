@@ -1,9 +1,6 @@
 package ntt.thuy.com.btlmusicplayer.offline;
 
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -16,22 +13,21 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import ntt.thuy.com.btlmusicplayer.R;
-import ntt.thuy.com.btlmusicplayer.model.Song;
+import ntt.thuy.com.btlmusicplayer.controller.OfflineController;
+import ntt.thuy.com.btlmusicplayer.entity.Song;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class OfflineFragment extends Fragment implements SongAdapter.OnItemClickListener, View.OnClickListener{
 private View view;
-    private static final int MY_WRITE_EXTERNAL_STORAGE_PERMISSION_CODE = 100;
+
     private RecyclerView rvSong;
     private SongAdapter songAdapter;
-    private SongManager songManager;
+    private OfflineController controller;
 
     private int pos = -1;
-
     private IPlayer songPlayer;
-
     ImageView ivPause, ivBack, ivNext;
 
     public OfflineFragment() {
@@ -43,41 +39,40 @@ private View view;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_offline, container, false);
+        controller = new OfflineController();
+        controller.setFragment(this);
+        controller.setSongManager(new SongManager());
+        controller.setSongPlayer(new SongPlayer(getContext()));
+
+        songPlayer = controller.getSongPlayer();
+
         initView();
-        checkPermission();
         return view;
     }
 
-    private void checkPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (getContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_WRITE_EXTERNAL_STORAGE_PERMISSION_CODE);
-            } else {
-                songAdapter = new SongAdapter(getContext(), songManager.getAllSong(getContext()));
-                songAdapter.setOnItemListener(this);
-
-                rvSong.setAdapter(songAdapter);
-            }
-        }
-    }
 
     private void initView() {
         ivPause = (ImageView) view.findViewById(R.id.bt_pause);
         ivBack = (ImageView) view.findViewById(R.id.bt_back);
         ivNext = (ImageView) view.findViewById(R.id.bt_next);
+        rvSong = (RecyclerView) view.findViewById(R.id.rv_song);
 
         ivPause.setOnClickListener(this);
         ivBack.setOnClickListener(this);
         ivNext.setOnClickListener(this);
 
-        rvSong = (RecyclerView) view.findViewById(R.id.rv_song);
+        if(controller.isWriteExternalStoragePermissionGranted()){
+            setupListSong();
+        }else {
+            controller.askPermissions();
+        }
+    }
+
+    private void setupListSong(){
         rvSong.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        songManager = new SongManager();
-
-
-        songPlayer = new SongPlayer(getContext());
-
+        songAdapter = new SongAdapter(getContext(), controller.getSongManager().getAllSong(getContext()));
+        songAdapter.setOnItemListener(this);
+        rvSong.setAdapter(songAdapter);
     }
 
     @Override
@@ -85,25 +80,22 @@ private View view;
         ivPause.setImageResource(R.mipmap.pause);
         pos = position;
         final Song song = songAdapter.getItem(position);
-
-
         int state = ((SongPlayer) songPlayer).getState();
+        ((SongPlayer) songPlayer).setSong(song);
         if (state != SongPlayer.STATE_IDLE) {
             songPlayer.stopSong();
         }
-        songPlayer.startSong(song.getId());
+        songPlayer.startSong();
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == MY_WRITE_EXTERNAL_STORAGE_PERMISSION_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == controller.MY_WRITE_EXTERNAL_STORAGE_PERMISSION_CODE) {
+            controller.setGrantResults(grantResults);
+            if (controller.isPermissionAllowed()) {
                 Toast.makeText(getContext(), "Write external storage permission granted!", Toast.LENGTH_SHORT).show();
-                songAdapter = new SongAdapter(getContext(), songManager.getAllSong(getContext()));
-                songAdapter.setOnItemListener(this);
-
-                rvSong.setAdapter(songAdapter);
+                setupListSong();
             } else {
                 Toast.makeText(getContext(), "Write external storage permission denied!", Toast.LENGTH_SHORT).show();
             }
@@ -112,39 +104,52 @@ private View view;
 
     @Override
     public void onClick(View view) {
-        int state = ((SongPlayer) songPlayer).getState();
         switch (view.getId()){
-
             case R.id.bt_pause:
-                if(state == SongPlayer.STATE_PLAYING) {
+                if(((SongPlayer) songPlayer).isPlaying()) {
                     songPlayer.pauseSong();
                     ivPause.setImageResource(R.mipmap.play);
-                } else if (state == SongPlayer.STATE_PAUSED){
+                } else if (((SongPlayer) songPlayer).isPaused()){
                     songPlayer.resumeSong();
                     ivPause.setImageResource(R.mipmap.pause);
                 }
                 break;
+
             case R.id.bt_next:
                 pos = pos+1;
-                if(pos>=songAdapter.getItemCount()) pos=0;
+                if(isLastSong()) pos=0;
                 final Song songNext = songAdapter.getItem(pos);
 
-                if (state != SongPlayer.STATE_IDLE) {
+                if (!((SongPlayer) songPlayer).isIDLE()) {
                     songPlayer.stopSong();
                 }
-                songPlayer.startSong(songNext.getId());
+                ((SongPlayer) songPlayer).setSong(songNext);
+                songPlayer.startSong();
                 break;
+
             case R.id.bt_back:
-                pos = pos-1;
-                if(pos<0) pos=songAdapter.getItemCount()-1;
+                if(isFirstSong()){
+                    pos=songAdapter.getItemCount()-1;
+                } else{
+                    pos = pos-1;
+                }
                 final Song songBack = songAdapter.getItem(pos);
 
-                if (state != SongPlayer.STATE_IDLE) {
+                if (!((SongPlayer) songPlayer).isIDLE()) {
                     songPlayer.stopSong();
                 }
-                songPlayer.startSong(songBack.getId());
+                ((SongPlayer) songPlayer).setSong(songBack);
+                songPlayer.startSong();
                 break;
         }
+    }
+
+    private boolean isLastSong(){
+        return pos >= songAdapter.getItemCount();
+    }
+
+    private boolean isFirstSong(){
+        return pos == 0;
     }
 
 }

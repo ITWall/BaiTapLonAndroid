@@ -9,6 +9,8 @@ import android.os.Binder;
 
 import java.io.IOException;
 
+import ntt.thuy.com.btlmusicplayer.entity.Song;
+
 /**
  * Created by thuy on 29/04/2018.
  */
@@ -21,12 +23,16 @@ public class SongPlayer implements IPlayer {
     private Context context;
 
     private MediaPlayer mediaPlayer;
+    private Song song;
 
     public SongPlayer(Context context) {
         state = STATE_IDLE;
         this.context = context;
     }
 
+    public void setSong(Song song) {
+        this.song = song;
+    }
 //    @Override
 //    public IBinder onBind(Intent intent) {
 //        return new ServiceBinder();
@@ -61,7 +67,7 @@ public class SongPlayer implements IPlayer {
 //        }
 //    }
 
-    public void startSongForeground(long id) {
+    public void startSongForeground() {
         if (mediaPlayer == null || !mediaPlayer.isPlaying()) {
             //mediaPlayer = MediaPlayer.create(this, uri);
             try {
@@ -69,7 +75,7 @@ public class SongPlayer implements IPlayer {
                 mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
                 Uri contentUri = ContentUris.withAppendedId(
-                        android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id);
+                        android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, song.getId());
                 mediaPlayer.setDataSource(context, contentUri);
                 mediaPlayer.prepare();
 //                mediaPlayer.prepareAsync(); // bất đồng bộ, đọc audio trên mạng, connect bài hát trên luồng ngoài
@@ -95,7 +101,7 @@ public class SongPlayer implements IPlayer {
 
 
     @Override
-    public void startSong(long id) {
+    public void startSong() {
 
 //        Intent intent = new Intent(context, SongPlayer.class);
 //        intent.putExtra("song", id);
@@ -103,7 +109,7 @@ public class SongPlayer implements IPlayer {
 //        Log.i("SONG_ID",String.valueOf(id));
 //        startService(intent);
 
-        startSongForeground(id);
+        startSongForeground();
     }
 
     @Override
@@ -130,5 +136,17 @@ public class SongPlayer implements IPlayer {
             mediaPlayer = null;
             state = STATE_IDLE;
         }
+    }
+
+    public boolean isPlaying(){
+        return this.state == STATE_PLAYING;
+    }
+
+    public boolean isPaused(){
+        return this.state == STATE_PAUSED;
+    }
+
+    public boolean isIDLE(){
+        return this.state == STATE_IDLE;
     }
 }

@@ -8,12 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
+import ntt.thuy.com.btlmusicplayer.R;
+import ntt.thuy.com.btlmusicplayer.entity.Track;
 
-import ntt.thuy.com.btlmusicplayer.R;
-import ntt.thuy.com.btlmusicplayer.model.Track;
-import ntt.thuy.com.btlmusicplayer.R;
 
 /**
  * Created by nguyen.thi.thu.thuy on 5/11/18.
