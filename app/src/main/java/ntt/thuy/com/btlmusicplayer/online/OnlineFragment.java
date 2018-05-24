@@ -279,6 +279,7 @@ public class OnlineFragment extends Fragment implements OnGetAllTracks, TrackLis
 
     @Override
     public void onItemClick(int position) {
+        pause.setImageResource(R.mipmap.baseline_pause_white_36dp);
         pos = position;
         adapter.setSelectedPos(position);
         adapter.notifyDataSetChanged();

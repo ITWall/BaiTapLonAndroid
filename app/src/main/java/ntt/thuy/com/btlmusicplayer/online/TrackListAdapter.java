@@ -80,7 +80,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.Trac
 
             if(selectedPos == position) {
                 itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background_selected_item));
-            }
+            } else itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background_normal_item));
         }
     }
 
