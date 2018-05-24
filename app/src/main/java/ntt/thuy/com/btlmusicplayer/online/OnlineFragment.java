@@ -258,28 +258,6 @@ public class OnlineFragment extends Fragment implements OnGetAllTracks, TrackLis
         adapter.setSelectedPos(position);
         adapter.notifyDataSetChanged();
 
-
-        ProgressDialog progress = new ProgressDialog(getContext());
-        progress.setMessage("Please wait while loading song...");
-        progress.setCancelable(false);
-        progress.show();
-
-        OnlineSong onlineSong = list.get(position);
-        selectedOnlineSong = onlineSong;
-        showBottomBar(onlineSong);
-
-        if (mMediaPlayer.isPlaying()) {
-            mMediaPlayer.stop();
-            mMediaPlayer.reset();
-        }
-
-        try {
-            mMediaPlayer.setDataSource(onlineSong.streamUrl + "?client_id=" + Config.CLIENT_ID);
-            mMediaPlayer.prepareAsync();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         OnlineSong track = list.get(position);
         showBottomBar(track);
 
@@ -291,10 +269,6 @@ public class OnlineFragment extends Fragment implements OnGetAllTracks, TrackLis
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-
-            case R.id.relative_layout:
-                Log.d("TEST", selectedOnlineSong.getTitle());
-                ((MainActivity)getActivity()).showDetailTrackFragment(selectedOnlineSong);
 
             case R.id.selected_track_image:
 //                ((MainActivity)getActivity()).showDetailTrackFragment(selectedTrack);
