@@ -11,6 +11,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import ntt.thuy.com.btlmusicplayer.R;
 import ntt.thuy.com.btlmusicplayer.model.Track;
 import ntt.thuy.com.btlmusicplayer.R;
 
