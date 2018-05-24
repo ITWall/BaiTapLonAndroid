@@ -7,7 +7,7 @@ import android.provider.MediaStore;
 
 import java.util.ArrayList;
 
-import ntt.thuy.com.btlmusicplayer.entity.Song;
+import ntt.thuy.com.btlmusicplayer.entity.OfflineSong;
 
 /**
  * Created by thuy on 29/04/2018.
@@ -16,7 +16,7 @@ public class SongManager {
     public SongManager(){
 
     }
-    public ArrayList<Song> getAllSong(Context context){
+    public ArrayList<OfflineSong> getAllSong(Context context){
         Cursor cursor = context.getContentResolver().query(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 new String[]{
@@ -33,14 +33,14 @@ public class SongManager {
         );
 
         if(cursor == null){
-            return new ArrayList<Song>();
+            return new ArrayList<OfflineSong>();
         }
         if(cursor.getCount() == 0){
             cursor.close();
-            return new ArrayList<Song>();
+            return new ArrayList<OfflineSong>();
         }
 
-        ArrayList<Song> songs = new ArrayList<Song>();
+        ArrayList<OfflineSong> songs = new ArrayList<OfflineSong>();
         cursor.moveToFirst();
         int indexTitle = cursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
         int indexAuthor = cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
@@ -53,9 +53,9 @@ public class SongManager {
             String author = cursor.getString(indexAuthor);
             Long duration = cursor.getLong(indexDuration);
             Long id = cursor.getLong(indexID);
-            Uri data = Uri.parse(cursor.getString(indexData));
+            String data = cursor.getString(indexData);
 
-            songs.add(new Song(title,author,duration,id,data));
+            songs.add(new OfflineSong(title,author,duration,id,data));
             cursor.moveToNext();
         }
         cursor.close();

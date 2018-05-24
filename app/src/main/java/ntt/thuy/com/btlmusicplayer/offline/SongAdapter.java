@@ -9,13 +9,13 @@ import android.widget.TextView;
 import java.util.List;
 
 import ntt.thuy.com.btlmusicplayer.R;
-import ntt.thuy.com.btlmusicplayer.entity.Song;
+import ntt.thuy.com.btlmusicplayer.entity.OfflineSong;
 
 /**
  * Created by thuy on 29/04/2018.
  */
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder>{
-    private List<Song> listSong;
+    private List<OfflineSong> listSong;
     private Context mContext;
 
     private OnItemClickListener listener;
@@ -24,7 +24,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder>{
         this.listener = listener;
     }
 
-    public SongAdapter(Context context, List<Song> listSong){
+    public SongAdapter(Context context, List<OfflineSong> listSong){
         mContext = context;
         this.listSong = listSong;
     }
@@ -42,7 +42,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder>{
     @Override
     public void onBindViewHolder(SongHolder holder, int position) {
         final SongHolder songHolder = (SongHolder) holder;
-        Song song = listSong.get(position);
+        OfflineSong song = listSong.get(position);
         songHolder.tvTitle.setText(song.getTitle());
         songHolder.tvAuthor.setText(song.getAuthor());
 
@@ -60,7 +60,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder>{
         return listSong.size();
     }
 
-    public Song getItem(int position){
+    public OfflineSong getItem(int position){
         return listSong.get(position);
     }
 

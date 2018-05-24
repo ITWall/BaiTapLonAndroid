@@ -7,22 +7,16 @@ import com.google.gson.annotations.SerializedName;
  * Created by nguyen.thi.thu.thuy on 5/11/18.
  */
 
-public class Track {
+public class OnlineSong extends Song {
     @SerializedName("kind")
     @Expose
     public String kind;
-    @SerializedName("id")
-    @Expose
-    public Integer id;
     @SerializedName("created_at")
     @Expose
     public String createdAt;
     @SerializedName("user_id")
     @Expose
     public Integer userId;
-    @SerializedName("duration")
-    @Expose
-    public Integer duration;
     @SerializedName("commentable")
     @Expose
     public Boolean commentable;
@@ -65,9 +59,6 @@ public class Track {
     @SerializedName("genre")
     @Expose
     public String genre;
-    @SerializedName("title")
-    @Expose
-    public String title;
     @SerializedName("description")
     @Expose
     public String description;
@@ -107,9 +98,6 @@ public class Track {
     @SerializedName("license")
     @Expose
     public String license;
-    @SerializedName("uri")
-    @Expose
-    public String uri;
     @SerializedName("user")
     @Expose
     public User user;

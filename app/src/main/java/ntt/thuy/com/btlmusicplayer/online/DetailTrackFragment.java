@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import ntt.thuy.com.btlmusicplayer.R;
-import ntt.thuy.com.btlmusicplayer.entity.Track;
+import ntt.thuy.com.btlmusicplayer.entity.OnlineSong;
 
 /**
  * Created by nguyen.thi.thu.thuy on 5/11/18.
@@ -16,17 +16,17 @@ import ntt.thuy.com.btlmusicplayer.entity.Track;
 
 public class DetailTrackFragment extends Fragment {
 
-    private Track track;
+    private OnlineSong onlineSong;
     private TextView title, createdAt, userName, lastModified;
     private View view;
 
-    public DetailTrackFragment setTrack(Track track) {
-        this.track = track;
+    public DetailTrackFragment setOnlineSong(OnlineSong onlineSong) {
+        this.onlineSong = onlineSong;
         return this;
     }
 
-    public static DetailTrackFragment newInstance(Track track){
-        return new DetailTrackFragment().setTrack(track);
+    public static DetailTrackFragment newInstance(OnlineSong onlineSong){
+        return new DetailTrackFragment().setOnlineSong(onlineSong);
     }
 
     @Nullable
@@ -43,9 +43,9 @@ public class DetailTrackFragment extends Fragment {
         userName = (TextView) view.findViewById(R.id.user_name);
         lastModified = (TextView) view.findViewById(R.id.last_modified);
 
-//        title.setText(track.title);
-        createdAt.setText(track.createdAt);
-        userName.setText(track.user.username);
-        lastModified.setText(track.user.lastModified);
+//        title.setText(onlineSong.title);
+        createdAt.setText(onlineSong.createdAt);
+        userName.setText(onlineSong.user.username);
+        lastModified.setText(onlineSong.user.lastModified);
     }
 }

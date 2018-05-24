@@ -2,7 +2,7 @@ package ntt.thuy.com.btlmusicplayer.controller;
 import java.util.List;
 
 import ntt.thuy.com.btlmusicplayer.OnGetAllTracks;
-import ntt.thuy.com.btlmusicplayer.entity.Track;
+import ntt.thuy.com.btlmusicplayer.entity.OnlineSong;
 import ntt.thuy.com.btlmusicplayer.model.TrackModel;
 
 
@@ -29,7 +29,7 @@ public class OnlineController{
         this.trackModel = trackModel;
     }
 
-    public List<Track> getAllTracks(){
+    public List<OnlineSong> getAllTracks(){
         return trackModel.getAllTracks();
     }
 

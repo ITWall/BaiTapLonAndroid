@@ -31,7 +31,7 @@ import ntt.thuy.com.btlmusicplayer.MainActivity;
 import ntt.thuy.com.btlmusicplayer.OnGetAllTracks;
 import ntt.thuy.com.btlmusicplayer.R;
 import ntt.thuy.com.btlmusicplayer.controller.OnlineController;
-import ntt.thuy.com.btlmusicplayer.entity.Track;
+import ntt.thuy.com.btlmusicplayer.entity.OnlineSong;
 import ntt.thuy.com.btlmusicplayer.model.TrackModel;
 
 /**
@@ -41,7 +41,7 @@ import ntt.thuy.com.btlmusicplayer.model.TrackModel;
 public class OnlineFragment extends Fragment implements OnGetAllTracks, TrackListAdapter.OnItemClick, View.OnClickListener{
 
     private View view;
-    private List<Track> list;
+    private List<OnlineSong> list;
     private RecyclerView trackList;
     private TrackListAdapter adapter;
 
@@ -54,7 +54,7 @@ public class OnlineFragment extends Fragment implements OnGetAllTracks, TrackLis
     private MediaPlayer mMediaPlayer;
     private ProgressDialog progress;
     private Animation anim;
-    private Track selectedTrack;
+    private OnlineSong selectedOnlineSong;
 
     private OnlineController onlineController;
     public OnlineFragment() {
@@ -122,18 +122,18 @@ public class OnlineFragment extends Fragment implements OnGetAllTracks, TrackLis
         }
     }
 
-    private void showBottomBar(Track track) {
+    private void showBottomBar(OnlineSong onlineSong) {
         devide.setVisibility(View.VISIBLE);
         relativeLayout.setVisibility(View.VISIBLE);
 
-        mSelectedTrackTitle.setText(track.title);
+        mSelectedTrackTitle.setText(onlineSong.getTitle());
 
 //        Glide v4:
 //        Glide.with(context).load(url).apply(RequestOptions.circleCropTransform()).into(imageView);
 
 //        Glide v3:
-        if (track.artworkUrl != null) {
-            Glide.with(getActivity()).load(track.artworkUrl).asBitmap().centerCrop().into(new BitmapImageViewTarget(mSelectedTrackImage) {
+        if (onlineSong.artworkUrl != null) {
+            Glide.with(getActivity()).load(onlineSong.artworkUrl).asBitmap().centerCrop().into(new BitmapImageViewTarget(mSelectedTrackImage) {
                 @Override
                 protected void setResource(Bitmap resource) {
                     super.setResource(resource);
@@ -173,8 +173,8 @@ public class OnlineFragment extends Fragment implements OnGetAllTracks, TrackLis
     }
 
     @Override
-    public void onSuccess(List<Track> listTrack) {
-        this.list = listTrack;
+    public void onSuccess(List<OnlineSong> listOnlineSong) {
+        this.list = listOnlineSong;
         loadTracks();
     }
 
@@ -193,9 +193,9 @@ public class OnlineFragment extends Fragment implements OnGetAllTracks, TrackLis
         progress.setCancelable(false);
         progress.show();
 
-        Track track = list.get(position);
-        selectedTrack = track;
-        showBottomBar(track);
+        OnlineSong onlineSong = list.get(position);
+        selectedOnlineSong = onlineSong;
+        showBottomBar(onlineSong);
 
         if (mMediaPlayer.isPlaying()) {
             mMediaPlayer.stop();
@@ -203,7 +203,7 @@ public class OnlineFragment extends Fragment implements OnGetAllTracks, TrackLis
         }
 
         try {
-            mMediaPlayer.setDataSource(track.streamUrl + "?client_id=" + Config.CLIENT_ID);
+            mMediaPlayer.setDataSource(onlineSong.streamUrl + "?client_id=" + Config.CLIENT_ID);
             mMediaPlayer.prepareAsync();
         } catch (IOException e) {
             e.printStackTrace();
@@ -214,8 +214,8 @@ public class OnlineFragment extends Fragment implements OnGetAllTracks, TrackLis
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.relative_layout:
-                Log.d("TEST", selectedTrack.title);
-                ((MainActivity)getActivity()).showDetailTrackFragment(selectedTrack);
+                Log.d("TEST", selectedOnlineSong.getTitle());
+                ((MainActivity)getActivity()).showDetailTrackFragment(selectedOnlineSong);
                 break;
         }
     }

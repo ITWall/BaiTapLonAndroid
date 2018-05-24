@@ -14,7 +14,7 @@ import android.support.v7.widget.Toolbar;
 import java.util.ArrayList;
 import java.util.List;
 
-import ntt.thuy.com.btlmusicplayer.entity.Track;
+import ntt.thuy.com.btlmusicplayer.entity.OnlineSong;
 import ntt.thuy.com.btlmusicplayer.offline.OfflineFragment;
 import ntt.thuy.com.btlmusicplayer.online.DetailTrackFragment;
 import ntt.thuy.com.btlmusicplayer.online.OnlineFragment;
@@ -49,9 +49,9 @@ public class MainActivity extends AppCompatActivity  {
             viewPager.setAdapter(adapter);
         }
 
-        public void showDetailTrackFragment(Track track){
+        public void showDetailTrackFragment(OnlineSong onlineSong){
             getSupportFragmentManager().beginTransaction()
-                .add(R.id.viewpager, DetailTrackFragment.newInstance(track))
+                .add(R.id.viewpager, DetailTrackFragment.newInstance(onlineSong))
                 .addToBackStack(null)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit();

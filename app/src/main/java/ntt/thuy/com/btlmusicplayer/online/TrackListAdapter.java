@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import java.util.List;
 import ntt.thuy.com.btlmusicplayer.R;
-import ntt.thuy.com.btlmusicplayer.entity.Track;
+import ntt.thuy.com.btlmusicplayer.entity.OnlineSong;
 
 
 /**
@@ -19,7 +19,7 @@ import ntt.thuy.com.btlmusicplayer.entity.Track;
 
 public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.TrackHolder> {
 
-    List<Track> list;
+    List<OnlineSong> list;
     Context mContext;
     OnItemClick listener;
     int selectedPos = -1;
@@ -33,7 +33,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.Trac
         this.selectedPos = selectedPos;
     }
 
-    public void setList(List<Track> list) {
+    public void setList(List<OnlineSong> list) {
         this.list = list;
     }
 
@@ -69,14 +69,14 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.Trac
             });
         }
 
-        public void bindData(int position, Track track){
+        public void bindData(int position, OnlineSong onlineSong){
 
-            if (track.artworkUrl != null) {
-                Picasso.with(mContext).load(track.artworkUrl).error(R.mipmap.music_image).into(trackImage);
+            if (onlineSong.artworkUrl != null) {
+                Picasso.with(mContext).load(onlineSong.artworkUrl).error(R.mipmap.music_image).into(trackImage);
             } else {
                 trackImage.setImageResource(R.mipmap.music_image);
             }
-            trackTitle.setText(track.title);
+            trackTitle.setText(onlineSong.getTitle());
 
             if(selectedPos == position) {
                 itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background_selected_item));

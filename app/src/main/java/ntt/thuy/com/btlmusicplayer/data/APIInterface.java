@@ -3,7 +3,7 @@ package ntt.thuy.com.btlmusicplayer.data;
 import java.util.List;
 
 import ntt.thuy.com.btlmusicplayer.Config;
-import ntt.thuy.com.btlmusicplayer.entity.Track;
+import ntt.thuy.com.btlmusicplayer.entity.OnlineSong;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -14,7 +14,7 @@ import retrofit2.http.Query;
 
 public interface APIInterface {
     @GET("/tracks?client_id=" + Config.CLIENT_ID)
-    Call<List<Track>> getRecentTracks(@Query("created_at") String date,
-                                      @Query("limit") int limit,
-                                      @Query("") String filter);
+    Call<List<OnlineSong>> getRecentTracks(@Query("created_at") String date,
+                                           @Query("limit") int limit,
+                                           @Query("") String filter);
 }

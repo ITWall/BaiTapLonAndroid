@@ -9,7 +9,7 @@ import android.os.Binder;
 
 import java.io.IOException;
 
-import ntt.thuy.com.btlmusicplayer.entity.Song;
+import ntt.thuy.com.btlmusicplayer.entity.OfflineSong;
 
 /**
  * Created by thuy on 29/04/2018.
@@ -23,14 +23,14 @@ public class SongPlayer implements IPlayer {
     private Context context;
 
     private MediaPlayer mediaPlayer;
-    private Song song;
+    private OfflineSong song;
 
     public SongPlayer(Context context) {
         state = STATE_IDLE;
         this.context = context;
     }
 
-    public void setSong(Song song) {
+    public void setSong(OfflineSong song) {
         this.song = song;
     }
 //    @Override

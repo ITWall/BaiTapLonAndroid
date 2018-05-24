@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import ntt.thuy.com.btlmusicplayer.R;
 import ntt.thuy.com.btlmusicplayer.controller.OfflineController;
-import ntt.thuy.com.btlmusicplayer.entity.Song;
+import ntt.thuy.com.btlmusicplayer.entity.OfflineSong;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -79,7 +79,7 @@ private View view;
     public void onItemClicked(int position) {
         ivPause.setImageResource(R.mipmap.pause);
         pos = position;
-        final Song song = songAdapter.getItem(position);
+        final OfflineSong song = songAdapter.getItem(position);
         int state = ((SongPlayer) songPlayer).getState();
         ((SongPlayer) songPlayer).setSong(song);
         if (state != SongPlayer.STATE_IDLE) {
@@ -118,7 +118,7 @@ private View view;
             case R.id.bt_next:
                 pos = pos+1;
                 if(isLastSong()) pos=0;
-                final Song songNext = songAdapter.getItem(pos);
+                final OfflineSong songNext = songAdapter.getItem(pos);
 
                 if (!((SongPlayer) songPlayer).isIDLE()) {
                     songPlayer.stopSong();
@@ -133,7 +133,7 @@ private View view;
                 } else{
                     pos = pos-1;
                 }
-                final Song songBack = songAdapter.getItem(pos);
+                final OfflineSong songBack = songAdapter.getItem(pos);
 
                 if (!((SongPlayer) songPlayer).isIDLE()) {
                     songPlayer.stopSong();
