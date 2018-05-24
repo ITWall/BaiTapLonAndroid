@@ -196,33 +196,7 @@ public class OnlineFragment extends Fragment implements OnGetAllTracks, TrackLis
             }
         });
 
-//        setupMediaPlayer();
     }
-
-
-//    private void setupMediaPlayer(){
-//        mMediaPlayer = new MediaPlayer();
-//        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-//        mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-//            @Override
-//            public void onPrepared(MediaPlayer mp) {
-//                progress.dismiss();
-//
-//                anim = AnimationUtils.loadAnimation(getContext(), R.anim.rotate);
-//                mSelectedTrackImage.startAnimation(anim);
-//
-//                togglePlayPause();
-//            }
-//        });
-//    }
-//
-//    private void togglePlayPause() {
-//        if (mMediaPlayer.isPlaying()) {
-//            mMediaPlayer.pause();
-//        } else {
-//            mMediaPlayer.start();
-//        }
-//    }
 
     private void showBottomBar(OnlineSong track) {
         seekBar.setVisibility(View.VISIBLE);
