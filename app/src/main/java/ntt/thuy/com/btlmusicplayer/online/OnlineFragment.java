@@ -1,10 +1,9 @@
 package ntt.thuy.com.btlmusicplayer.online;
 
-import android.app.ProgressDialog;
 import android.graphics.Bitmap;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
@@ -19,15 +18,15 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import ntt.thuy.com.btlmusicplayer.Config;
-import ntt.thuy.com.btlmusicplayer.MainActivity;
+import ntt.thuy.com.btlmusicplayer.IPlayer;
 import ntt.thuy.com.btlmusicplayer.OnGetAllTracks;
 import ntt.thuy.com.btlmusicplayer.R;
 import ntt.thuy.com.btlmusicplayer.controller.OnlineController;
@@ -45,16 +44,24 @@ public class OnlineFragment extends Fragment implements OnGetAllTracks, TrackLis
     private RecyclerView trackList;
     private TrackListAdapter adapter;
 
-    private View devide;
     private RelativeLayout relativeLayout;
     private TextView mSelectedTrackTitle;
     private ImageView mSelectedTrackImage;
-    private ImageView previous, next, pause;
+    private ImageView pause;
 
+    private IPlayer songPlayer;
     private MediaPlayer mMediaPlayer;
-    private ProgressDialog progress;
+
     private Animation anim;
-    private Track selectedTrack;
+    private SeekBar seekBar;
+    private Handler mHandler = new Handler();
+    private Runnable runnable;
+
+    private TextView duration;
+    private TextView current;
+    private TableRow tableRow;
+
+    private int pos = -1;
 
     private OnlineController onlineController;
     public OnlineFragment() {
@@ -85,53 +92,133 @@ public class OnlineFragment extends Fragment implements OnGetAllTracks, TrackLis
         trackList.setAdapter(adapter);
         list = new ArrayList<>();
 
-        devide = (View) view.findViewById(R.id.view_devide);
-        devide.setVisibility(View.GONE);
+        seekBar = (SeekBar) view.findViewById(R.id.seek_bar);
+        seekBar.setVisibility(View.GONE);
+
+        tableRow = (TableRow) view.findViewById(R.id.table_row);
+        tableRow.setVisibility(View.GONE);
 
         relativeLayout = (RelativeLayout) view.findViewById(R.id.relative_layout);
         relativeLayout.setVisibility(View.GONE);
-        relativeLayout.setOnClickListener(this);
+//        relativeLayout.setOnClickListener(this);
 
         mSelectedTrackTitle = (TextView) view.findViewById(R.id.selected_track_title);
         mSelectedTrackImage = (ImageView) view.findViewById(R.id.selected_track_image);
 
-        setupMediaPlayer();
-    }
+        pause = (ImageView) view.findViewById(R.id.pause);
+        ImageView next = (ImageView) view.findViewById(R.id.next);
+        ImageView previous = (ImageView) view.findViewById(R.id.previous);
 
-    private void setupMediaPlayer(){
-        mMediaPlayer = new MediaPlayer();
-        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+        duration = (TextView) view.findViewById(R.id.text_duration);
+        current = (TextView) view.findViewById(R.id.text_current);
+
+        seekBar.setMax(0);
+        current.setText(secondsToString(0));
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
             @Override
-            public void onPrepared(MediaPlayer mp) {
-                progress.dismiss();
+            public void onStopTrackingTouch(SeekBar seekBar) {
 
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                if (mMediaPlayer != null && fromUser) {
+                    mMediaPlayer.seekTo(progress * 1000);
+                }
+            }
+        });
+
+        pause.setOnClickListener(this);
+        next.setOnClickListener(this);
+        previous.setOnClickListener(this);
+
+        songPlayer = new OnlineSongPlayer(getContext(), new OnlineSongPlayer.MediaPlayerMonitoring() {
+            @Override
+            public void onCompletion() {
+                Log.d("TEST", "on completion");
+
+                pos++;
+                adapter.setSelectedPos(pos);
+                adapter.notifyDataSetChanged();
+
+                Track track = list.get(pos);
+                showBottomBar(track);
+
+                songPlayer.startSong(track.streamUrl);
                 anim = AnimationUtils.loadAnimation(getContext(), R.anim.rotate);
                 mSelectedTrackImage.startAnimation(anim);
 
-                togglePlayPause();
+            }
+
+            @Override
+            public void startNewThread() {
+                final Track track = list.get(pos);
+                seekBar.setMax(track.duration/1000);
+                seekBar.setProgress(0);
+                duration.setText(secondsToString(track.duration/1000));
+                current.setText(secondsToString(0));
+
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        mMediaPlayer = ((OnlineSongPlayer) songPlayer).getMediaPlayer();
+                        if (mMediaPlayer != null) {
+                            if (seekBar.getProgress() == seekBar.getMax()) {
+                                pause.setImageResource(R.mipmap.baseline_play_arrow_white_36dp);
+                                return;
+                            }
+                            int mCurrentPosition = mMediaPlayer.getCurrentPosition()/1000;
+                            Log.d("TEST", mCurrentPosition + "s");
+                            current.setText(secondsToString(mCurrentPosition));
+                            seekBar.setProgress(mCurrentPosition);
+                        }
+                        mHandler.postDelayed(runnable, 1000);
+                    }
+                };
+                mHandler.postDelayed(runnable, 1000);
             }
         });
+
+//        setupMediaPlayer();
     }
 
-    private void togglePlayPause() {
-        if (mMediaPlayer.isPlaying()) {
-            mMediaPlayer.pause();
-        } else {
-            mMediaPlayer.start();
-        }
-    }
+//    private void setupMediaPlayer(){
+//        mMediaPlayer = new MediaPlayer();
+//        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+//        mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//            @Override
+//            public void onPrepared(MediaPlayer mp) {
+//                progress.dismiss();
+//
+//                anim = AnimationUtils.loadAnimation(getContext(), R.anim.rotate);
+//                mSelectedTrackImage.startAnimation(anim);
+//
+//                togglePlayPause();
+//            }
+//        });
+//    }
+//
+//    private void togglePlayPause() {
+//        if (mMediaPlayer.isPlaying()) {
+//            mMediaPlayer.pause();
+//        } else {
+//            mMediaPlayer.start();
+//        }
+//    }
 
     private void showBottomBar(Track track) {
-        devide.setVisibility(View.VISIBLE);
+        seekBar.setVisibility(View.VISIBLE);
+        tableRow.setVisibility(View.VISIBLE);
         relativeLayout.setVisibility(View.VISIBLE);
-
         mSelectedTrackTitle.setText(track.title);
 
-//        Glide v4:
-//        Glide.with(context).load(url).apply(RequestOptions.circleCropTransform()).into(imageView);
-
-//        Glide v3:
         if (track.artworkUrl != null) {
             Glide.with(getActivity()).load(track.artworkUrl).asBitmap().centerCrop().into(new BitmapImageViewTarget(mSelectedTrackImage) {
                 @Override
@@ -163,13 +250,8 @@ public class OnlineFragment extends Fragment implements OnGetAllTracks, TrackLis
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mMediaPlayer != null) {
-            if (mMediaPlayer.isPlaying()) {
-                mMediaPlayer.stop();
-            }
-            mMediaPlayer.release();
-            mMediaPlayer = null;
-        }
+        songPlayer.releaseMediaPlayer();
+        mHandler.removeCallbacks(runnable);
     }
 
     @Override
@@ -185,38 +267,92 @@ public class OnlineFragment extends Fragment implements OnGetAllTracks, TrackLis
 
     @Override
     public void onItemClick(int position) {
+        pos = position;
         adapter.setSelectedPos(position);
         adapter.notifyDataSetChanged();
 
-        progress = new ProgressDialog(getContext());
-        progress.setMessage("Please wait while loading song...");
-        progress.setCancelable(false);
-        progress.show();
-
         Track track = list.get(position);
-        selectedTrack = track;
         showBottomBar(track);
 
-        if (mMediaPlayer.isPlaying()) {
-            mMediaPlayer.stop();
-            mMediaPlayer.reset();
-        }
-
-        try {
-            mMediaPlayer.setDataSource(track.streamUrl + "?client_id=" + Config.CLIENT_ID);
-            mMediaPlayer.prepareAsync();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        songPlayer.startSong(track.streamUrl);
+        anim = AnimationUtils.loadAnimation(getContext(), R.anim.rotate);
+        mSelectedTrackImage.startAnimation(anim);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.relative_layout:
-                Log.d("TEST", selectedTrack.title);
-                ((MainActivity)getActivity()).showDetailTrackFragment(selectedTrack);
+            case R.id.selected_track_image:
+//                ((MainActivity)getActivity()).showDetailTrackFragment(selectedTrack);
                 break;
+            case R.id.pause:
+                if (pos == -1 || ((OnlineSongPlayer) songPlayer).getState() == OnlineSongPlayer.STATE_IDLE) {
+                    pause.setImageResource(R.mipmap.baseline_pause_white_36dp);
+                    songPlayer.startSong(list.get(0).streamUrl);
+
+                    pos++;
+                } else {
+                    if (((OnlineSongPlayer) songPlayer).getState() == OnlineSongPlayer.STATE_PLAYING) {
+                        pause.setImageResource(R.mipmap.baseline_play_arrow_white_36dp);
+                        songPlayer.pauseSong();
+//                        mSelectedTrackImage.clearAnimation();
+                    } else {
+                        if (((OnlineSongPlayer) songPlayer).getState() == OnlineSongPlayer.STATE_PAUSED) {
+                            pause.setImageResource(R.mipmap.baseline_pause_white_36dp);
+                            songPlayer.resumeSong();
+                        }
+                    }
+                }
+
+                break;
+            case R.id.next:
+                pause.setImageResource(R.mipmap.baseline_pause_white_36dp);
+                if (pos == -1) {
+                    songPlayer.startSong(list.get(0).streamUrl);
+                    pos++;
+                } else {
+                    if (((OnlineSongPlayer) songPlayer).getState() != OnlineSongPlayer.STATE_IDLE) {
+                        songPlayer.stopSong();
+                    }
+                    pos++;
+                    if (pos >= list.size()) {
+                        pos = 0;
+                    }
+                    songPlayer.startSong(list.get(pos).streamUrl);
+                }
+                break;
+            case R.id.previous:
+                pause.setImageResource(R.mipmap.baseline_pause_white_36dp);
+                int lastIndex = list.size() - 1;
+                if (pos == -1) {
+                    songPlayer.startSong(list.get(lastIndex).streamUrl);
+                    pos = lastIndex;
+                } else {
+                    if (((OnlineSongPlayer) songPlayer).getState() != OnlineSongPlayer.STATE_IDLE) {
+                        songPlayer.stopSong();
+                    }
+                    pos--;
+                    if (pos < 0) {
+                        pos = lastIndex;
+                    }
+
+                    songPlayer.startSong(list.get(pos).streamUrl);
+                }
+                break;
+            default:
         }
+
+        adapter.setSelectedPos(pos);
+        adapter.notifyDataSetChanged();
+
+        Track track = list.get(pos);
+        showBottomBar(track);
+
+        anim = AnimationUtils.loadAnimation(getContext(), R.anim.rotate);
+        mSelectedTrackImage.startAnimation(anim);
+    }
+
+    private String secondsToString(int pTime) {
+        return String.format("%02d:%02d", pTime / 60, pTime % 60);
     }
 }

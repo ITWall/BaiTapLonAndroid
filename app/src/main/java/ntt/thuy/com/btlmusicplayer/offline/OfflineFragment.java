@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import ntt.thuy.com.btlmusicplayer.IPlayer;
 import ntt.thuy.com.btlmusicplayer.R;
 import ntt.thuy.com.btlmusicplayer.controller.OfflineController;
 import ntt.thuy.com.btlmusicplayer.entity.Song;
@@ -42,7 +43,7 @@ private View view;
         controller = new OfflineController();
         controller.setFragment(this);
         controller.setSongManager(new SongManager());
-        controller.setSongPlayer(new SongPlayer(getContext()));
+        controller.setSongPlayer(new OfflineSongPlayer(getContext()));
 
         songPlayer = controller.getSongPlayer();
 
@@ -80,9 +81,9 @@ private View view;
         ivPause.setImageResource(R.mipmap.pause);
         pos = position;
         final Song song = songAdapter.getItem(position);
-        int state = ((SongPlayer) songPlayer).getState();
-        ((SongPlayer) songPlayer).setSong(song);
-        if (state != SongPlayer.STATE_IDLE) {
+        int state = ((OfflineSongPlayer) songPlayer).getState();
+        ((OfflineSongPlayer) songPlayer).setSong(song);
+        if (state != OfflineSongPlayer.STATE_IDLE) {
             songPlayer.stopSong();
         }
         songPlayer.startSong();
@@ -106,10 +107,10 @@ private View view;
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.bt_pause:
-                if(((SongPlayer) songPlayer).isPlaying()) {
+                if(((OfflineSongPlayer) songPlayer).isPlaying()) {
                     songPlayer.pauseSong();
                     ivPause.setImageResource(R.mipmap.play);
-                } else if (((SongPlayer) songPlayer).isPaused()){
+                } else if (((OfflineSongPlayer) songPlayer).isPaused()){
                     songPlayer.resumeSong();
                     ivPause.setImageResource(R.mipmap.pause);
                 }
@@ -120,10 +121,10 @@ private View view;
                 if(isLastSong()) pos=0;
                 final Song songNext = songAdapter.getItem(pos);
 
-                if (!((SongPlayer) songPlayer).isIDLE()) {
+                if (!((OfflineSongPlayer) songPlayer).isIDLE()) {
                     songPlayer.stopSong();
                 }
-                ((SongPlayer) songPlayer).setSong(songNext);
+                ((OfflineSongPlayer) songPlayer).setSong(songNext);
                 songPlayer.startSong();
                 break;
 
@@ -135,10 +136,10 @@ private View view;
                 }
                 final Song songBack = songAdapter.getItem(pos);
 
-                if (!((SongPlayer) songPlayer).isIDLE()) {
+                if (!((OfflineSongPlayer) songPlayer).isIDLE()) {
                     songPlayer.stopSong();
                 }
-                ((SongPlayer) songPlayer).setSong(songBack);
+                ((OfflineSongPlayer) songPlayer).setSong(songBack);
                 songPlayer.startSong();
                 break;
         }

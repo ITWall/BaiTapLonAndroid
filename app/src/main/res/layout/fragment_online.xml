@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_content_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="8dp"
@@ -11,13 +12,34 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <View
-        android:id="@+id/view_devide"
+    <SeekBar
+        android:id="@+id/seek_bar"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" />
+
+    <TableRow
+        android:id="@+id/table_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/colorAccent" />
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp">
+
+        <TextView
+            android:id="@+id/text_current"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="00:00" />
+
+        <TextView
+            android:id="@+id/text_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="01:59" />
+
+    </TableRow>
 
     <RelativeLayout
         android:id="@+id/relative_layout"
@@ -30,8 +52,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center_vertical"
-            android:layout_margin="8dp"
-            android:src="@mipmap/ic_launcher" />
+            android:layout_margin="8dp" />
 
         <TextView
             android:id="@+id/selected_track_title"
