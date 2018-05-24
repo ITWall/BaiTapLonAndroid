@@ -6,7 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 
-import ntt.thuy.com.btlmusicplayer.offline.IPlayer;
+import ntt.thuy.com.btlmusicplayer.IPlayer;
 import ntt.thuy.com.btlmusicplayer.offline.SongManager;
 
 public class OfflineController {

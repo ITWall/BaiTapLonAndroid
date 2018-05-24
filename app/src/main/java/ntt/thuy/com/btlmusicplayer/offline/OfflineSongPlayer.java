@@ -10,11 +10,13 @@ import android.os.Binder;
 import java.io.IOException;
 
 import ntt.thuy.com.btlmusicplayer.entity.OfflineSong;
+import ntt.thuy.com.btlmusicplayer.IPlayer;
+
 
 /**
  * Created by thuy on 29/04/2018.
  */
-public class SongPlayer implements IPlayer {
+public class OfflineSongPlayer implements IPlayer {
     public static final int STATE_IDLE = 1;
     public static final int STATE_PLAYING = 2;
     public static final int STATE_PAUSED = 3;
@@ -25,7 +27,7 @@ public class SongPlayer implements IPlayer {
     private MediaPlayer mediaPlayer;
     private OfflineSong song;
 
-    public SongPlayer(Context context) {
+    public OfflineSongPlayer(Context context) {
         state = STATE_IDLE;
         this.context = context;
     }
@@ -39,8 +41,8 @@ public class SongPlayer implements IPlayer {
 //    }
 
     public class ServiceBinder extends Binder {
-        public SongPlayer getService() {
-            return SongPlayer.this;
+        public OfflineSongPlayer getService() {
+            return OfflineSongPlayer.this;
         }
     }
 
@@ -103,7 +105,7 @@ public class SongPlayer implements IPlayer {
     @Override
     public void startSong() {
 
-//        Intent intent = new Intent(context, SongPlayer.class);
+//        Intent intent = new Intent(context, OfflineSongPlayer.class);
 //        intent.putExtra("song", id);
 //        intent.setAction("action_play");
 //        Log.i("SONG_ID",String.valueOf(id));
@@ -136,6 +138,16 @@ public class SongPlayer implements IPlayer {
             mediaPlayer = null;
             state = STATE_IDLE;
         }
+    }
+
+    @Override
+    public void startSong(String streamUrl) {
+        //nothing to do..
+    }
+
+    @Override
+    public void releaseMediaPlayer() {
+        //nothing to do..
     }
 
     public boolean isPlaying(){
