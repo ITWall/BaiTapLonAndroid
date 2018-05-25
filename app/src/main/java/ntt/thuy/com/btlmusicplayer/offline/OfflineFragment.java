@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import ntt.thuy.com.btlmusicplayer.IPlayer;
 import ntt.thuy.com.btlmusicplayer.R;
 import ntt.thuy.com.btlmusicplayer.controller.OfflineController;
@@ -26,6 +28,7 @@ private View view;
     private RecyclerView rvSong;
     private SongAdapter songAdapter;
     private OfflineController controller;
+    private List<OfflineSong> list;
 
     private int pos = -1;
     private IPlayer songPlayer;
@@ -35,6 +38,14 @@ private View view;
         // Required empty public constructor
     }
 
+    public List<OfflineSong> getList() {
+        return list;
+    }
+
+    public void setList(List<OfflineSong> list) {
+        this.list = list;
+        songAdapter.setListSong(this.list);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,8 +81,9 @@ private View view;
     }
 
     private void setupListSong(){
+        list = controller.getSongManager().getAllSong(getContext());
         rvSong.setLayoutManager(new LinearLayoutManager(getContext()));
-        songAdapter = new SongAdapter(getContext(), controller.getSongManager().getAllSong(getContext()));
+        songAdapter = new SongAdapter(getContext(), list);
         songAdapter.setOnItemListener(this);
         rvSong.setAdapter(songAdapter);
     }

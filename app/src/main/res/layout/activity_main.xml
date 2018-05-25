@@ -14,7 +14,38 @@
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:background="@color/background_toolbar"
-            app:titleTextColor="@android:color/white"/>
+            android:padding="8dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/toolbar_save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="All song"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"/>
+
+                <ImageView
+                    android:id="@+id/ic_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_toLeftOf="@id/ic_sort"
+                    android:src="@mipmap/baseline_search_white_18dp" />
+
+                <ImageView
+                    android:id="@+id/ic_sort"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/sort_by_alphabet_az"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="4dp"/>
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"

@@ -10,20 +10,30 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
+import ntt.thuy.com.btlmusicplayer.entity.OfflineSong;
 import ntt.thuy.com.btlmusicplayer.entity.OnlineSong;
+import ntt.thuy.com.btlmusicplayer.entity.Song;
 import ntt.thuy.com.btlmusicplayer.offline.OfflineFragment;
 import ntt.thuy.com.btlmusicplayer.online.DetailTrackFragment;
 import ntt.thuy.com.btlmusicplayer.online.OnlineFragment;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private ImageView icSearch, icSort;
+    private OnlineFragment onlineFragment;
+    private OfflineFragment offlineFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,7 +43,15 @@ public class MainActivity extends AppCompatActivity  {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        icSearch = (ImageView) findViewById(R.id.ic_search);
+        icSearch.setOnClickListener(this);
+        icSort = (ImageView) findViewById(R.id.ic_sort);
+        icSort.setOnClickListener(this);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        onlineFragment = new OnlineFragment();
+        offlineFragment = new OfflineFragment();
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -44,8 +62,8 @@ public class MainActivity extends AppCompatActivity  {
 
         public void setupViewPager(ViewPager viewPager) {
             ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-            adapter.addFragment(new OnlineFragment(), "ONlINE");
-            adapter.addFragment(new OfflineFragment(), "OFFLINE");
+            adapter.addFragment(onlineFragment, "ONlINE");
+            adapter.addFragment(offlineFragment, "OFFLINE");
             viewPager.setAdapter(adapter);
         }
 
@@ -55,6 +73,73 @@ public class MainActivity extends AppCompatActivity  {
                 .addToBackStack(null)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit();
+    }
+
+    // sort by A-Z
+    private boolean isAscending = false;
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ic_search:
+                break;
+            case R.id.ic_sort:
+                Log.d("TEST", "sort");
+                if(!isAscending) {
+                    Log.d("TEST", "isAscending false");
+                    icSort.setImageResource(R.mipmap.sort_by_alphabet_za);
+                    isAscending = true;
+                    if (tabLayout.getSelectedTabPosition() == 0) {
+                        Log.d("TEST", "isAscending false online");
+                        List<OnlineSong> list = onlineFragment.getList();
+                        Collections.sort(list, new Comparator<OnlineSong>() {
+                            @Override
+                            public int compare(OnlineSong track1, OnlineSong track2) {
+                                return track1.getTitle().compareToIgnoreCase(track2.getTitle());
+                            }
+                        });
+                        onlineFragment.setList(list);
+                    } else {
+                        Log.d("TEST", "isAscending false offline");
+                        List<OfflineSong> list = offlineFragment.getList();
+                        Collections.sort(list, new Comparator<OfflineSong>() {
+                            @Override
+                            public int compare(OfflineSong track1, OfflineSong track2) {
+                                return track1.getTitle().compareToIgnoreCase(track2.getTitle());
+                            }
+                        });
+                        offlineFragment.setList(list);
+                    }
+                } else {
+                    Log.d("TEST", "isAscending true");
+                    icSort.setImageResource(R.mipmap.sort_by_alphabet_az);
+                    isAscending = false;
+                    if (tabLayout.getSelectedTabPosition() == 0) {
+                        Log.d("TEST", "isAscending true online");
+                        List<OnlineSong> list = onlineFragment.getList();
+                        Collections.sort(list, new Comparator<OnlineSong>() {
+                            @Override
+                            public int compare(OnlineSong track1, OnlineSong track2) {
+                                return -(track1.getTitle().compareToIgnoreCase(track2.getTitle()));
+                            }
+                        });
+                        onlineFragment.setList(list);
+                    } else {
+                        Log.d("TEST", "isAscending true offline");
+                        List<OfflineSong> list = offlineFragment.getList();
+                        Collections.sort(list, new Comparator<OfflineSong>() {
+                            @Override
+                            public int compare(OfflineSong track1, OfflineSong track2) {
+                                return -(track1.getTitle().compareToIgnoreCase(track2.getTitle()));
+                            }
+                        });
+                        offlineFragment.setList(list);
+                    }
+                }
+                break;
+            default:
+                break;
+
+        }
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

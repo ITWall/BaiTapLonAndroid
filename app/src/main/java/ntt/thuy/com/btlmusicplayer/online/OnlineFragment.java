@@ -72,6 +72,14 @@ public class OnlineFragment extends Fragment implements OnGetAllTracks, TrackLis
 
     private int pos = -1;
 
+    public List<OnlineSong> getList() {
+        return list;
+    }
+
+    public void setList(List<OnlineSong> list) {
+        this.list = list;
+        adapter.setList(this.list);
+    }
 
     private OnlineController onlineController;
     public OnlineFragment() {

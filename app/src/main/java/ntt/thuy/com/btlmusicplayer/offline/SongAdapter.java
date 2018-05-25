@@ -29,6 +29,10 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder>{
         this.listSong = listSong;
     }
 
+    public void setListSong(List<OfflineSong> listSong) {
+        this.listSong = listSong;
+        notifyDataSetChanged();
+    }
 
     @Override
     public SongHolder onCreateViewHolder(ViewGroup parent, int viewType) {

@@ -35,6 +35,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.Trac
 
     public void setList(List<OnlineSong> list) {
         this.list = list;
+        notifyDataSetChanged();
     }
 
     @Override
