@@ -4,9 +4,8 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/bg"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="8dp"
     tools:context=".MainActivity">
 
     <android.support.v7.widget.RecyclerView
@@ -19,7 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@color/background_toolbar">
 
         <ImageView
             android:id="@+id/bt_back"
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:src="@mipmap/previous" />
+            android:src="@mipmap/baseline_skip_previous_white_36dp" />
 
         <ImageView
             android:id="@+id/bt_pause"
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:src="@mipmap/play" />
+            android:src="@mipmap/baseline_play_arrow_white_36dp" />
 
         <ImageView
             android:id="@+id/bt_next"
@@ -43,6 +43,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:src="@mipmap/next" />
+            android:src="@mipmap/baseline_skip_next_white_36dp" />
     </TableRow>
 </LinearLayout>

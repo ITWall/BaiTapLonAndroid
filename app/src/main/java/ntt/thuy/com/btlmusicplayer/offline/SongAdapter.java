@@ -11,7 +11,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import ntt.thuy.com.btlmusicplayer.online.CustomOnlineFilter;
 import ntt.thuy.com.btlmusicplayer.R;
 import ntt.thuy.com.btlmusicplayer.entity.OfflineSong;
 
@@ -44,7 +43,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> im
 
     @Override
     public SongHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemSong = View.inflate(mContext, R.layout.item_song,null);
+        View itemSong = View.inflate(mContext, R.layout.item_song_offline,null);
         RecyclerView.LayoutParams params = new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,RecyclerView.LayoutParams.WRAP_CONTENT);
         params.setMargins(8,8,8,8);
         itemSong.setLayoutParams(params);
