@@ -10,9 +10,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ImageView icSearch, icSort;
+    private EditText searchView;
     private OnlineFragment onlineFragment;
     private OfflineFragment offlineFragment;
 
@@ -47,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         icSearch.setOnClickListener(this);
         icSort = (ImageView) findViewById(R.id.ic_sort);
         icSort.setOnClickListener(this);
+        searchView = (EditText) findViewById(R.id.search_view);
+        searchView.setVisibility(View.GONE);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -81,6 +88,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ic_search:
+                searchView.setVisibility(View.VISIBLE);
+                TextView toolBarHeader = (TextView) findViewById(R.id.toolbar_header);
+                toolBarHeader.setVisibility(View.GONE);
+                searchView.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        if (tabLayout.getSelectedTabPosition() == 0) {
+                            onlineFragment.getAdapter().getFilter().filter(charSequence);
+                        } else {
+
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
                 break;
             case R.id.ic_sort:
                 Log.d("TEST", "sort");

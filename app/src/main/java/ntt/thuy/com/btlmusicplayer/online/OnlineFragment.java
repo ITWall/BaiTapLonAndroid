@@ -85,6 +85,10 @@ public class OnlineFragment extends Fragment implements OnGetAllTracks, TrackLis
     public OnlineFragment() {
     }
 
+    public TrackListAdapter getAdapter() {
+        return adapter;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

@@ -5,9 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 import java.util.List;
 import ntt.thuy.com.btlmusicplayer.R;
 import ntt.thuy.com.btlmusicplayer.entity.OnlineSong;
@@ -17,12 +21,14 @@ import ntt.thuy.com.btlmusicplayer.entity.OnlineSong;
  * Created by nguyen.thi.thu.thuy on 5/11/18.
  */
 
-public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.TrackHolder> {
+public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.TrackHolder> implements Filterable {
 
-    List<OnlineSong> list;
+    List<OnlineSong> list,filterList;
     Context mContext;
     OnItemClick listener;
     int selectedPos = -1;
+
+    CustomFilter filter;
 
     public TrackListAdapter(Context mContext, OnItemClick listener) {
         this.mContext = mContext;
@@ -35,6 +41,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.Trac
 
     public void setList(List<OnlineSong> list) {
         this.list = list;
+        this.filterList = list;
         notifyDataSetChanged();
     }
 
@@ -52,6 +59,14 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.Trac
     @Override
     public int getItemCount() {
         return list == null ? 0 : list.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        if(filter == null){
+            filter = new CustomFilter(this, (ArrayList<OnlineSong>) filterList);
+        }
+        return filter;
     }
 
     class TrackHolder extends RecyclerView.ViewHolder {
@@ -88,4 +103,5 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.Trac
     interface OnItemClick{
         void onItemClick(int position);
     }
+
 }
