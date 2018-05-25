@@ -34,6 +34,7 @@
                     android:layout_height="match_parent"
                     android:hint="Enter name of song.."
                     android:textColor="@android:color/white"
+                    android:textColorHint="@android:color/white"
                     android:layout_toLeftOf="@id/ic_search"
                     android:layout_alignParentBottom="true"
                     android:visibility="gone"
@@ -42,14 +43,14 @@
                 <ImageView
                     android:id="@+id/ic_search"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="36dp"
                     android:layout_toLeftOf="@id/ic_sort"
                     android:src="@mipmap/baseline_search_white_18dp" />
 
                 <ImageView
                     android:id="@+id/ic_sort"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="18dp"
                     android:src="@mipmap/sort_by_alphabet_az"
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="6dp"/>

@@ -15,6 +15,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -75,8 +77,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         public void showDetailTrackFragment(OnlineSong onlineSong){
+        Log.d("TEST", onlineSong.getTitle());
             getSupportFragmentManager().beginTransaction()
-                .add(R.id.viewpager, DetailTrackFragment.newInstance(onlineSong))
+                .replace(R.id.main_content_layout, DetailTrackFragment.newInstance(onlineSong))
                 .addToBackStack(null)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit();
@@ -88,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ic_search:
+
                 searchView.setVisibility(View.VISIBLE);
                 searchView.requestFocus();
 

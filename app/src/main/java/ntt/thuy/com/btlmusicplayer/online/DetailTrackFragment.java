@@ -3,6 +3,7 @@ package ntt.thuy.com.btlmusicplayer.online;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,12 +39,14 @@ public class DetailTrackFragment extends Fragment {
     }
 
     public void init() {
-        title = (TextView) view.findViewById(R.id.track_title);
+        title = (TextView) view.findViewById(R.id.title);
         createdAt = (TextView) view.findViewById(R.id.created_at);
         userName = (TextView) view.findViewById(R.id.user_name);
         lastModified = (TextView) view.findViewById(R.id.last_modified);
 
-//        title.setText(onlineSong.title);
+        Log.d("TEST", onlineSong.getTitle());
+
+        title.setText(onlineSong.getTitle());
         createdAt.setText(onlineSong.createdAt);
         userName.setText(onlineSong.user.username);
         lastModified.setText(onlineSong.user.lastModified);

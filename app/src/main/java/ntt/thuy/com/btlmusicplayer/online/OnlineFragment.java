@@ -168,7 +168,6 @@ public class OnlineFragment extends Fragment implements OnGetAllTracks, TrackLis
 
                 pos++;
                 adapter.setSelectedPos(pos);
-                adapter.notifyDataSetChanged();
 
                 OnlineSong track = list.get(pos);
                 showBottomBar(track);
@@ -268,10 +267,10 @@ public class OnlineFragment extends Fragment implements OnGetAllTracks, TrackLis
         pause.setImageResource(R.mipmap.baseline_pause_white_36dp);
         pos = position;
         adapter.setSelectedPos(position);
-        adapter.notifyDataSetChanged();
 
         OnlineSong track = list.get(position);
         showBottomBar(track);
+        selectedOnlineSong = track;
 
         songPlayer.startSong(track.streamUrl);
         anim = AnimationUtils.loadAnimation(getContext(), R.anim.rotate);
@@ -283,7 +282,8 @@ public class OnlineFragment extends Fragment implements OnGetAllTracks, TrackLis
         switch (view.getId()){
 
             case R.id.selected_track_image:
-//                ((MainActivity)getActivity()).showDetailTrackFragment(selectedTrack);
+                Log.d("TEST", "click track image");
+                ((MainActivity)getActivity()).showDetailTrackFragment(selectedOnlineSong);
                 break;
             case R.id.pause:
                 if (pos == -1 || ((OnlineSongPlayer) songPlayer).getState() == OnlineSongPlayer.STATE_IDLE) {
@@ -343,7 +343,6 @@ public class OnlineFragment extends Fragment implements OnGetAllTracks, TrackLis
         }
 
         adapter.setSelectedPos(pos);
-        adapter.notifyDataSetChanged();
 
         OnlineSong track = list.get(pos);
         showBottomBar(track);

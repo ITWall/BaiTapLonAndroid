@@ -23,7 +23,15 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> im
 
     private OnItemClickListener listener;
 
+    int selectedPos = -1;
+
+
     CustomOfflineFilter filter;
+
+    public void setSelectedPos(int selectedPos) {
+        this.selectedPos = selectedPos;
+        notifyDataSetChanged();
+    }
 
     public void setOnItemListener(OnItemClickListener listener) {
         this.listener = listener;
@@ -64,6 +72,10 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> im
                 listener.onItemClicked(songHolder.getAdapterPosition());
             }
         });
+
+        if(selectedPos == position) {
+            songHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background_selected_item));
+        } else songHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background_normal_item));
     }
 
     @Override

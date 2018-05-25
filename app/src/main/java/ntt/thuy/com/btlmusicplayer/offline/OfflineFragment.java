@@ -94,9 +94,9 @@ private View view;
 
     @Override
     public void onItemClicked(int position) {
-        ivPause.setImageResource(R.mipmap.pause);
+        ivPause.setImageResource(R.mipmap.baseline_pause_white_36dp);
         pos = position;
-
+songAdapter.setSelectedPos(pos);
         final OfflineSong song = songAdapter.getItem(position);
         int state = ((OfflineSongPlayer) songPlayer).getState();
         ((OfflineSongPlayer) songPlayer).setSong(song);
@@ -127,10 +127,10 @@ private View view;
             case R.id.bt_pause:
                 if(((OfflineSongPlayer) songPlayer).isPlaying()) {
                     songPlayer.pauseSong();
-                    ivPause.setImageResource(R.mipmap.play);
+                    ivPause.setImageResource(R.mipmap.baseline_play_arrow_white_36dp);
                 } else if (((OfflineSongPlayer) songPlayer).isPaused()){
                     songPlayer.resumeSong();
-                    ivPause.setImageResource(R.mipmap.pause);
+                    ivPause.setImageResource(R.mipmap.baseline_pause_white_36dp);
                 }
                 break;
 
@@ -161,6 +161,7 @@ private View view;
                 songPlayer.startSong();
                 break;
         }
+        songAdapter.setSelectedPos(pos);
     }
 
     private boolean isLastSong(){

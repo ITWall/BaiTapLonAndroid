@@ -38,6 +38,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.Trac
 
     public void setSelectedPos(int selectedPos) {
         this.selectedPos = selectedPos;
+        notifyDataSetChanged();
     }
 
     public void setList(List<OnlineSong> list) {
