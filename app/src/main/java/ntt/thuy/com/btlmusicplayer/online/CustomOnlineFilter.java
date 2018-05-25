@@ -5,15 +5,16 @@ import android.widget.Filter;
 import java.util.ArrayList;
 
 import ntt.thuy.com.btlmusicplayer.entity.OnlineSong;
+import ntt.thuy.com.btlmusicplayer.online.TrackListAdapter;
 
 /**
  * Created by thuy on 25/05/2018.
  */
-public class CustomFilter extends Filter {
+public class CustomOnlineFilter extends Filter {
     TrackListAdapter adapter;
     ArrayList<OnlineSong> filterList;
 
-    public CustomFilter(TrackListAdapter adapter, ArrayList<OnlineSong> filterList) {
+    public CustomOnlineFilter(TrackListAdapter adapter, ArrayList<OnlineSong> filterList) {
         this.adapter = adapter;
         this.filterList = filterList;
     }

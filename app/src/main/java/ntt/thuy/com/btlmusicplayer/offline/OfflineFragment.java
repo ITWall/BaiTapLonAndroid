@@ -47,6 +47,10 @@ private View view;
         songAdapter.setListSong(this.list);
     }
 
+    public SongAdapter getSongAdapter() {
+        return songAdapter;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

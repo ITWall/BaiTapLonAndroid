@@ -4,21 +4,27 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import ntt.thuy.com.btlmusicplayer.online.CustomOnlineFilter;
 import ntt.thuy.com.btlmusicplayer.R;
 import ntt.thuy.com.btlmusicplayer.entity.OfflineSong;
 
 /**
  * Created by thuy on 29/04/2018.
  */
-public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder>{
-    private List<OfflineSong> listSong;
+public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> implements Filterable{
+    private List<OfflineSong> listSong,filterList;
     private Context mContext;
 
     private OnItemClickListener listener;
+
+    CustomOfflineFilter filter;
 
     public void setOnItemListener(OnItemClickListener listener) {
         this.listener = listener;
@@ -27,10 +33,12 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder>{
     public SongAdapter(Context context, List<OfflineSong> listSong){
         mContext = context;
         this.listSong = listSong;
+        this.filterList = listSong;
     }
 
     public void setListSong(List<OfflineSong> listSong) {
         this.listSong = listSong;
+        this.filterList = listSong;
         notifyDataSetChanged();
     }
 
@@ -66,6 +74,14 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder>{
 
     public OfflineSong getItem(int position){
         return listSong.get(position);
+    }
+
+    @Override
+    public Filter getFilter() {
+        if(filter == null){
+            filter = new CustomOfflineFilter(this, (ArrayList<OfflineSong>) filterList);
+        }
+        return filter;
     }
 
     public class SongHolder extends RecyclerView.ViewHolder {

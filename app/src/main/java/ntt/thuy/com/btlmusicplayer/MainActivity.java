@@ -1,5 +1,6 @@
 package ntt.thuy.com.btlmusicplayer;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -55,8 +57,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         searchView = (EditText) findViewById(R.id.search_view);
         searchView.setVisibility(View.GONE);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         onlineFragment = new OnlineFragment();
         offlineFragment = new OfflineFragment();
 
@@ -89,6 +89,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.ic_search:
                 searchView.setVisibility(View.VISIBLE);
+                searchView.requestFocus();
+
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(searchView, InputMethodManager.SHOW_IMPLICIT);
+
                 TextView toolBarHeader = (TextView) findViewById(R.id.toolbar_header);
                 toolBarHeader.setVisibility(View.GONE);
                 searchView.addTextChangedListener(new TextWatcher() {
@@ -102,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if (tabLayout.getSelectedTabPosition() == 0) {
                             onlineFragment.getAdapter().getFilter().filter(charSequence);
                         } else {
-
+                            offlineFragment.getSongAdapter().getFilter().filter(charSequence);
                         }
                     }
 

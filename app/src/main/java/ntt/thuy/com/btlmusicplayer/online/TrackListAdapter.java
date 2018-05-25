@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import ntt.thuy.com.btlmusicplayer.R;
 import ntt.thuy.com.btlmusicplayer.entity.OnlineSong;
 
@@ -28,7 +29,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.Trac
     OnItemClick listener;
     int selectedPos = -1;
 
-    CustomFilter filter;
+    CustomOnlineFilter filter;
 
     public TrackListAdapter(Context mContext, OnItemClick listener) {
         this.mContext = mContext;
@@ -64,7 +65,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.Trac
     @Override
     public Filter getFilter() {
         if(filter == null){
-            filter = new CustomFilter(this, (ArrayList<OnlineSong>) filterList);
+            filter = new CustomOnlineFilter(this, (ArrayList<OnlineSong>) filterList);
         }
         return filter;
     }
